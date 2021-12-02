@@ -1,11 +1,14 @@
 {
   "name": "blocksearch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Block Search widget",
   "main": "./build/main.js",
   "scripts": {
     "build": "roamjs-scripts build",
-    "dev": "roamjs-scripts dev"
+    "dev": "roamjs-scripts dev",
+    "local-dev": "/Users/jmatthewpryor/proj/roamresearch/roamjs-scripts/dist/index.js dev",
+    "publish": "roamjs-scripts publish"
+
   },
   "license": "MIT",
   "devDependencies": {
@@ -15,9 +18,9 @@
     "typescript": "^4.5.2"
   },
   "dependencies": {
-    "eslint": "^8.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-markdown": "^7.1.1",
     "roamjs-components": "^0.27.5",
     "ts-deepmerge": "^1.1.0"
   }

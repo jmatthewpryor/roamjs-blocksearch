@@ -9,31 +9,32 @@ import merge from "ts-deepmerge";
 
 addStyle(`
 .roamjs-blocksearch {
-  font-family: monospace;
   box-sizing: border-box;
 }
 .roamjs-blocksearch-input {
-  width: 500px;
+  width: 100%;
   margin: 10px auto;
   display: block;
   padding: 10px;
-  text-align: center;
+  text-align: left;
 }
 .roamjs-blocksearch-top {
-  width: 500px;
+  width: 100%;
   margin: 0 auto;
   padding: 0;
 }
 .roamjs-blocksearch-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  min-height: 20px;
+  background-color: #f9f9f9;
+  justify-content: left;
 }
 .roamjs-blocksearch-row {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: top;
   background-color: #f5f5f5;
-  padding: 10px;
   margin-bottom: 5px;
   position: relative;
 }
@@ -42,15 +43,26 @@ addStyle(`
 }
 .roamjs-blocksearch-item-text {
   flex-grow: 9;
+  font-size: small !important;
+  margin-left: 5px;
 }
 .roamjs-blocksearch-item-button {
   color: #777;
-  flex-basis: 0;
   flex-grow: 1;
-  flex-shrink: 1;
-  margin-left: 10px;
 }
 `);
+
+export const openBlockInSidebar = (blockUid: string): boolean | void =>
+  window.roamAlphaAPI.ui.rightSidebar
+    .getWindows()
+    .some((w) => w.type === "block" && w["block-uid"] === blockUid)
+    ? window.roamAlphaAPI.ui.rightSidebar.open()
+    : window.roamAlphaAPI.ui.rightSidebar.addWindow({
+        window: {
+          type: "block",
+          "block-uid": blockUid,
+        },
+      });
 
 export interface BlocksearchSettings {
   query?: {
@@ -108,6 +120,8 @@ runExtension(ID, () => {
       if (config.debug) {
         console.log("CONFIG:", config);
       }
+
+      b.parentElement.onmousedown = e => e.stopPropagation()
 
       renderBlocksearch(
         config,
